@@ -1,6 +1,11 @@
 require "timeout"
 require "capybara/poltergeist/utility"
 
+if Capybara::Poltergeist.windows?
+    require "win32/process"
+    require "Win32API"
+end
+
 module Capybara::Poltergeist
   class Client
     PHANTOMJS_SCRIPT  = File.expand_path('../client/compiled/main.js', __FILE__)
@@ -88,7 +93,16 @@ module Capybara::Poltergeist
     def check_phantomjs_version
       return if @phantomjs_version_checked
 
-      version = `#{path} --version` rescue nil
+      if Capybara::Poltergeist.windows?
+        WaitForSingleObject=Win32API.new('kernel32.dll','WaitForSingleObject','ll','l')
+        rout, wout = IO.pipe
+        pinfo = Process.create( { app_name: "#{path} --version", creation_flags: Process::CREATE_NO_WINDOW|Process::DETACHED_PROCESS, startup_info: {stdout: wout} })
+        WaitForSingleObject.call(pinfo["process_handle"], 0xFFFFFFFF)
+        wout.close
+        verion = rout.readlines.join("\n")
+      else
+        version = `#{path} --version` rescue nil
+      end
 
       if version.nil? || $? != 0
         raise PhantomJSFailed.new($?)

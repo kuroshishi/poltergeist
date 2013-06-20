@@ -5,7 +5,7 @@ $:.unshift lib unless $:.include?(lib)
 require 'capybara/poltergeist/version'
 
 Gem::Specification.new do |s|
-  s.name        = "poltergeist"
+  s.name        = "poltergeist_winghost"
   s.version     = Capybara::Poltergeist::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Jon Leighton"]
@@ -19,6 +19,8 @@ Gem::Specification.new do |s|
   s.add_dependency "capybara",         "~> 2.1.0"
   s.add_dependency "websocket-driver", ">= 0.2.0"
   s.add_dependency "multi_json",       "~> 1.0"
+  s.add_dependency "win32-process",       "~> 0.7.2"
+  s.add_dependency "win32-api",       "~> 1.4.8"
 
   s.add_development_dependency 'rspec',              '~> 2.12'
   s.add_development_dependency 'sinatra',            '~> 1.0'
