@@ -5,7 +5,7 @@ $:.unshift lib unless $:.include?(lib)
 require 'capybara/poltergeist/version'
 
 Gem::Specification.new do |s|
-  s.name        = "poltergeist_winghost"
+  s.name        = "poltergeist-winghost"
   s.version     = Capybara::Poltergeist::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Jon Leighton"]
